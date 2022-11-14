@@ -43,7 +43,9 @@ jobs:
       run: scripts/build
 
     - name: Docker registry login
-      run: echo ${{ secrets.DOCKERHUB_USERNAME }} | docker login -u ${{ secrets.DOCKERHUB_TOKEN }} --password-stdin
+      run: |
+        echo ${{ secrets.DOCKERHUB_USERNAME }}
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
     - name: Publish image
       run: scripts/publish
