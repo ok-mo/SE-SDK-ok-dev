@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# runs on linux only (so far)
+docker run -ti \
+	--privileged \
+	-v /dev/bus/usb:/dev/bus/usb \
+	mmcc007/se-sdk-ok-dev:latest

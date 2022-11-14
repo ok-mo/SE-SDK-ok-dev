@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# abort on error (note that this is only a fallback. You should still check
+# return codes every single time!)
+set -e
+
+# Build the se-sdk-ok-dev image
+docker build \
+	-f Dockerfile.se-sdk-ok-dev \
+	--build-arg UID=$(id -u) \
+	--build-arg GID=$(id -g) \
+	-t mmcc007/se-sdk-ok-dev:latest .

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sudo docker push mmcc007/se-sdk-ok-dev:latest

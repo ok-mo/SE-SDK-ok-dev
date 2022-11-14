@@ -1,0 +1,58 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE:-swedishembedded/build:latest}
+
+RUN mkdir -p /build/platform && \
+	chown -R user:user /build
+
+# demo of a recommended project layout and how to intialize it
+USER user
+RUN cd /build/platform && \
+	git clone https://github.com/swedishembedded/sdk.git && \
+	cd sdk && \
+	./scripts/init
+
+# Install VSCode Server
+COPY scripts/install-vscode-server.sh /tmp/
+RUN sudo chmod +x /tmp/install-vscode-server.sh && \
+	/tmp/install-vscode-server.sh
+
+USER root
+
+# fix permissions for zephyr sdk
+RUN chmod a+rwx /opt/toolchains/zephyr-sdk-0.14.2/cmake
+RUN /opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
+COPY --chown=user:user conf/bashrc /home/user/.bashrc
+COPY --chown=user:user conf/pygdbinit /home/user/.pygdbinit
+
+# Install vim
+RUN apt-get update && \
+	apt-get install -y vim
+
+# Install debugging tools
+RUN apt-get update && \
+	apt-get -qy install --no-install-recommends \
+	gdb-multiarch
+
+# Clean up stale packages
+RUN apt-get clean -y && \
+	apt-get autoremove --purge -y && \
+	rm -rf /var/lib/apt/lists/*
+
+# Add entrypoint script
+ADD entrypoint.sh /home/user/init
+RUN dos2unix /home/user/init
+ENTRYPOINT ["/home/user/init"]
+
+# Switch to 'user' context
+USER user
+
+# Configure environment variables
+ENV DISPLAY=:0
+ENV ZEPHYR_BASE=/build/platform/zephyr
+
+# Set working directory
+WORKDIR /build/
+#VOLUME ["/build/"]
+
+# Launch bash shell by default
+CMD ["/bin/bash"]
