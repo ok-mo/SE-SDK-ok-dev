@@ -71,18 +71,30 @@ Images can be built using the supplied shell script:
 
 Follow the steps below to build and run a sample application:
 
+A preliminary step is required to setup the zephyr sdk
+
+```
+/opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
+```
+
 ```
 cd /build/platform/sdk
+./scripts/init # one time only
 west build -b custom_board -d build-apps/custom_board/shell/apps.shell.release/ -s apps/shell
+
 # if on linux
+
 west build -b stm32f429i_disc1 -s ../zephyr/samples/basic/blinky -t flash
+
 ```
 
 To build in my_repo
 
 ```
 cd /build/platform/my_repo
+./scripts/init # one time only
 west build -b custom_board -d build-apps/custom_board/shell/apps.shell.release/ -s apps/shell
+
 ```
 
 Note: assumes my_repo has been setup similar to https://github.com/swedishembedded/sdk
@@ -92,7 +104,9 @@ Note: assumes my_repo has been setup similar to https://github.com/swedishembedd
 If you find that your system runs out of space then you can always delete all modified docker data by pruning everything (be careful because this will delete any changes you have done to files inside a docker container. It will **not** however remove files you modified in a mounted local directory. So it's safe.):
 
 ```
+
 docker system prune --volumes
+
 ```
 
 ## Questions
@@ -116,3 +130,7 @@ easily scale development to multiple projects.
 
 Besides, 15GB is not much considering that it is basically a full ubuntu setup
 with everything included inside.
+
+```
+
+```
