@@ -36,7 +36,7 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
 The command above mounts your workspace under /build/platform inside the container so you can
 work on your local files from within the container.
 
-For a sample repo that uses the recommended SE SDK project layout use
+For a sample repo that uses the recommended SE SDK project layout use.  
 https://github.com/ok-mo/zephyr-getting-started
 
 In order to flash firmware over USB JTAG you also need to run docker in
@@ -48,7 +48,7 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
     mmcc007/se-sdk-ok-dev:latest
 ```
 
-Note: due to incomplete support from Docker for macOS, USB pass-thru does not work for macOS.
+Note: due to incomplete support from Docker for macOS, USB pass-thru does not work for macOS.  
 https://github.com/docker/for-mac/issues/900
 
 A potential workaround using VirtualBox, which supports USB pass-thru, as an intermediary hypervisor to docker container, is being investigated. Otherwise, the workaround is to flash app image using west from the local env (and debugging locally also).
@@ -106,9 +106,7 @@ Note: assumes my_repo has been setup similar to https://github.com/swedishembedd
 If you find that your system runs out of space then you can always delete all modified docker data by pruning everything (be careful because this will delete any changes you have done to files inside a docker container. It will **not** however remove files you modified in a mounted local directory. So it's safe.):
 
 ```
-
 docker system prune --volumes
-
 ```
 
 ## Questions
@@ -132,7 +130,3 @@ easily scale development to multiple projects.
 
 Besides, 15GB is not much considering that it is basically a full ubuntu setup
 with everything included inside.
-
-```
-
-```
