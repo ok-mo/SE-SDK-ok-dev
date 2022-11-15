@@ -4,7 +4,7 @@ See https://github.com/swedishembedded/develop for inspiration
 
 This repository contains a docker image:
 
-- **ok-dev Developer Image**: this image contains a standalong development environment based on VSCode Server which can be used for development by connecting to from a local VSCode IDE.
+- **ok-dev Developer Image**: this image contains a standalone development environment based on VSCode Server which can be used for development by connecting to container from a local VSCode IDE.
 
 ## Support
 
@@ -17,7 +17,7 @@ This repository contains a docker image:
 The developer image includes all tools included in the build image as well as
 additional tools that are useful for development:
 
-- **VSCode Server**: use a familiar IDE from your desktop. Connect via the Docker plugin.
+- **VSCode Server**: use a familiar IDE from your desktop. Connect via the VSCode Docker extension.
 
 - **GDB Dashboard**: for easy graphical GDB debugging.
 
@@ -33,8 +33,8 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
            mmcc007/se-sdk-ok-dev:latest
 ```
 
-The command above mounts your workspace under /build/platform inside the image so you can
-work on your local files from within the image.
+The command above mounts your workspace under /build/platform inside the container so you can
+work on your local files from within the container.
 
 In order to flash firmware over USB JTAG you also need to run docker in
 privileged mode and mount usb within docker:
@@ -46,7 +46,8 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
 ```
 
 Note: due to incomplete support from Docker for macOS, USB pass-thru does not work for macOS.
-A potential workaround using VirtualBox, which supports USB pass-thru, as an intermediary hypervisor to docker container, is being investigated.
+https://github.com/docker/for-mac/issues/900
+A potential workaround using VirtualBox, which supports USB pass-thru, as an intermediary hypervisor to docker container, is being investigated. Otherwise, the workaround is to flash app image using west from the local env (and debugging locally also).
 
 This will allow you to access JTAG adapter from inside the container. You can
 also expose other resources to the container in the same way.
@@ -62,14 +63,14 @@ cat ~/.bashrc
 Images can be built using the supplied shell script:
 
 ```
-./build
+./scripts/build
 ```
 
 ### Usage
 
 #### Building a sample application
 
-Follow the steps below to build and run a sample application:
+While in a container, follow the steps below to build and run a sample application:
 
 A preliminary step is required to setup the zephyr sdk
 
@@ -77,24 +78,21 @@ A preliminary step is required to setup the zephyr sdk
 /opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
 ```
 
+A demo:
+
 ```
 cd /build/platform/sdk
-./scripts/init # one time only
 west build -b custom_board -d build-apps/custom_board/shell/apps.shell.release/ -s apps/shell
 
-# if on linux
-
+# if on linux you can also flash to a physical board, eg:
 west build -b stm32f429i_disc1 -s ../zephyr/samples/basic/blinky -t flash
-
 ```
 
 To build in my_repo
 
 ```
 cd /build/platform/my_repo
-./scripts/init # one time only
 west build -b custom_board -d build-apps/custom_board/shell/apps.shell.release/ -s apps/shell
-
 ```
 
 Note: assumes my_repo has been setup similar to https://github.com/swedishembedded/sdk
