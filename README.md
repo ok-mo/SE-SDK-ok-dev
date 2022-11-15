@@ -38,7 +38,7 @@ work on your local files from within the container.
 
 For a sample repo that uses the recommended SE SDK project layout use
 https://github.com/ok-mo/zephyr-getting-started
-`
+
 In order to flash firmware over USB JTAG you also need to run docker in
 privileged mode and mount usb within docker:
 
@@ -50,6 +50,7 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
 
 Note: due to incomplete support from Docker for macOS, USB pass-thru does not work for macOS.
 https://github.com/docker/for-mac/issues/900
+
 A potential workaround using VirtualBox, which supports USB pass-thru, as an intermediary hypervisor to docker container, is being investigated. Otherwise, the workaround is to flash app image using west from the local env (and debugging locally also).
 
 This will allow you to access JTAG adapter from inside the container. You can
