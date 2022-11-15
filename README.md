@@ -36,6 +36,9 @@ docker run -ti -v <path to my git repo>/my_repo:/build/platform/my_repo \
 The command above mounts your workspace under /build/platform inside the container so you can
 work on your local files from within the container.
 
+For a sample repo that uses the recommended SE SDK project layout use
+https://github.com/ok-mo/zephyr-getting-started
+`
 In order to flash firmware over USB JTAG you also need to run docker in
 privileged mode and mount usb within docker:
 
@@ -58,9 +61,9 @@ Check out the configuration like this:
 cat ~/.bashrc
 ```
 
-#### Building Images
+#### Building Developer Docker Image Locally
 
-Images can be built using the supplied shell script:
+Developer docker image can be built locally using the supplied shell script:
 
 ```
 ./scripts/build
