@@ -24,9 +24,10 @@ RUN /opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
 COPY --chown=user:user conf/bashrc /home/user/.bashrc
 COPY --chown=user:user conf/pygdbinit /home/user/.pygdbinit
 
-# Install vim
+# Install vim and nano
 RUN apt-get update && \
-	apt-get install -y vim
+	apt-get install -y vim \
+	apt-get install -y nano
 
 # Install debugging tools
 RUN apt-get update && \
