@@ -26,7 +26,7 @@ COPY --chown=user:user conf/pygdbinit /home/user/.pygdbinit
 
 # Install vim and nano
 RUN apt-get update && \
-	apt-get install -y vim \
+	apt-get install -y vim && \
 	apt-get install -y nano
 
 # Install debugging tools
